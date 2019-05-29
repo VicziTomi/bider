@@ -1,6 +1,9 @@
 package hu.flowacademy.bider.service;
 
 import hu.flowacademy.bider.domain.Bid;
+import hu.flowacademy.bider.domain.Product;
+import hu.flowacademy.bider.exception.BidAmountException;
+import hu.flowacademy.bider.exception.BidClosedException;
 import hu.flowacademy.bider.exception.BidNotExistException;
 import hu.flowacademy.bider.repository.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,8 @@ public class BidService {
 
     @Autowired
     private BidRepository bidRepository;
+
+    @Autowired ProductService productService;
 
     public Bid addBid(Bid bid) {
         return bidRepository.save(bid);
@@ -36,9 +41,22 @@ public class BidService {
     }
 
     public void delBid(Long id) {
-        if (bidRepository.findById(id).isPresent()) {
-            bidRepository.deleteById(id);
+        bidRepository.deleteById(id);
+    }
+
+    public Bid makeBidToProduct(Long productId, Bid bid) {
+        Product product = productService.getProduct(productId);
+        bid.setProduct(product);
+        if (product.getBidEnd().isBefore(bid.getBidDate())) {
+            throw new BidClosedException();
         }
-        throw new BidNotExistException();
+        if (product.getMinPrice() > bid.getBidPrice()) {
+            throw new BidAmountException();
+        }
+        return bidRepository.save(bid);
+    }
+
+    public List<Bid> listBidsinOrder(Long productId) {
+        return bidRepository.findAllByProduct_idOrderByBidPrice(productId);
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
 public class Bid {
 
     @Id
-    @SequenceGenerator(name="idSeqGenerator", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(generator = "idSeqGenerator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name="bidIdSeqGenerator", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(generator = "bidIdSeqGenerator", strategy = GenerationType.SEQUENCE)
     @Column
     private long id;
 
@@ -33,6 +33,16 @@ public class Bid {
         this.bidDate = bidDate;
         this.product = product;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Bid() {}
 
     public long getId() {
         return id;

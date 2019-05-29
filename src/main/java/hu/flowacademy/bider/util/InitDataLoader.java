@@ -23,6 +23,7 @@ public class InitDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+/*
         Product p1 = new Product("USB lavalamp", "kacat", 2990, LocalDate.of(19, Month.MAY, 27), LocalDate.of(19, 6, 27));
         Product p2 = new Product("Rdr2", "games", 15990, LocalDate.of(19, Month.MAY, 25), LocalDate.of(19, Month.JUNE, 10));
 
@@ -36,7 +37,6 @@ public class InitDataLoader implements CommandLineRunner {
         bidRepository.save(b2);
 
 
-
-
+ */
     }
 }
